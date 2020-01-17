@@ -1,6 +1,7 @@
 package test;
 
 import dao.UserDao;
+import domain.QueryVo;
 import domain.User;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -109,9 +110,21 @@ public class MybatisTest {
             System.out.println(user);
         }
     }
-    //测试查询总记录条数
+    //测试使用QueryVo作为查询条件
     @Test
     public void findTotal(){
         System.out.println("总记录数为:"+userDao.findTotal());
+    }
+    //测试根据username模糊查询用户信息
+    @Test
+    public void findByVo(){
+        QueryVo vo = new QueryVo();
+        User user = new User();
+        user.setUsername("小%");
+        vo.setUser(user);
+        List<User> users = userDao.findUserByVo(vo);
+        for (User u: users ) {
+            System.out.println(u);
+        }
     }
 }
